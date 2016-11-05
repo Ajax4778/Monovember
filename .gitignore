@@ -5,3 +5,5 @@ Properties/
 *.csproj
 *.sln
 *.userprefs
+
+.DS_Store
