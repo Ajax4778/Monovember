@@ -7,21 +7,20 @@ namespace TicTacToe
 {
 	public class Board
 	{
-		// TODO: refactor marks to use char instead of string.
-		// TODO refactor grid to use List<int> instead of int[].
+		// TODO: refactor grid to use List<char> instead of char[].
 
-		public static string[] validMarks = new string[] { "x", "o" };
+		public static char[] validMarks = new char[] { 'x', 'o' };
 
-		public string[] grid { get; private set; }
+		public char[] grid { get; private set; }
 
-		public string winner { get; set; }
+		public char winner { get; set; }
 
-		public Board (string[] grid = null)
+		public Board (char[] grid = null)
 		{
 			if (grid != null) {
 				this.grid = grid;
 			} else {
-				this.grid = Enumerable.Repeat (" ", 9).ToArray ();
+				this.grid = Enumerable.Repeat (' ', 9).ToArray ();
 			}
 		}
 
@@ -34,7 +33,7 @@ namespace TicTacToe
 			Console.WriteLine ("{0} | {1} | {2}", this.grid [6], this.grid [7], this.grid [8]);
 		}
 
-		public void placeMark (int[] pos, string mark)
+		public void placeMark (int[] pos, char mark)
 		{
 			int markingIdx = this.index (pos);
 			this.grid [markingIdx] = mark;
@@ -43,19 +42,19 @@ namespace TicTacToe
 		public bool isCellEmpty (int[] pos)
 		{
 			int cellIdx = this.index (pos);
-			return this.grid [cellIdx] == " ";
+			return this.grid [cellIdx] == ' ';
 		}
 
-		public bool isWinner (string mark)
+		public bool isWinner (char mark)
 		{
-			if (!String.IsNullOrWhiteSpace (this.winner)) {
+			if (Board.validMarks.Contains (this.winner)) {
 				return this.winner == mark;
 			}
 
 			foreach (int i in new int[] { 0, 1, 2}) {
-				string[] row = this.row (i);
-				string[] col = this.column (i);
-				string[] dia = this.diagonal (i);
+				char[] row = this.row (i);
+				char[] col = this.column (i);
+				char[] dia = this.diagonal (i);
 
 				if (this.isLineWon (row, mark) || this.isLineWon (col, mark) || this.isLineWon (dia, mark)) {
 					this.winner = mark;
@@ -67,19 +66,19 @@ namespace TicTacToe
 		}
 
 
-		public bool isLineWon (string[] line, string mark)
+		public bool isLineWon (char[] line, char mark)
 		{
 			if (line.Length == 0 || line [0] != mark) {
 				return false;
 			}
 
-			return (line [0] != " " && line.Distinct ().ToArray ().Length == 1);
+			return (line [0] != ' ' && line.Distinct ().ToArray ().Length == 1);
 		}
 
 		public bool isFull ()
 		{
-			foreach (string cell in this.grid) {
-				if (cell == " ") {
+			foreach (char cell in this.grid) {
+				if (cell == ' ') {
 					return false;
 				}
 			}
@@ -95,34 +94,34 @@ namespace TicTacToe
 			return (i * 3) + j;
 		}
 
-		public string[] row (int i)
+		public char[] row (int i)
 		{
 			if (i < 0 || i > 2) {
-				return new string[0];
+				return new char[0];
 			} else {
 				i = i * 3;
-				return new string[] { this.grid [i], this.grid [i + 1], this.grid [i + 2] };
+				return new char[] { this.grid [i], this.grid [i + 1], this.grid [i + 2] };
 			}
 		}
 
-		public string[] column (int j)
+		public char[] column (int j)
 		{
 			if (j < 0 || j > 2) {
-				return new string[0];
+				return new char[0];
 			} else {
-				return new string[] { this.grid [j], this.grid [j + 3], this.grid [j + 6] };
+				return new char[] { this.grid [j], this.grid [j + 3], this.grid [j + 6] };
 			}
 
 		}
 
-		public string[] diagonal (int d)
+		public char[] diagonal (int d)
 		{
 			if (d == 0) {
-				return new string[] { this.grid [0], this.grid [4], this.grid [8] };
+				return new char[] { this.grid [0], this.grid [4], this.grid [8] };
 			} else if (d == 1) {
-				return new string[] { this.grid [2], this.grid [4], this.grid [6] };
+				return new char[] { this.grid [2], this.grid [4], this.grid [6] };
 			} else {
-				return new string[0];
+				return new char[0];
 			}
 		}
 	}
