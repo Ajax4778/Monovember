@@ -5,15 +5,24 @@ using System.Linq;
 
 namespace TicTacToe
 {
-	class Board
+	public class Board
 	{
+		// TODO: refactor marks to use char instead of string.
+		// TODO refactor grid to use List<int> instead of int[].
+
+		public static string[] validMarks = new string[] { "x", "o" };
+
 		public string[] grid { get; private set; }
 
 		public string winner { get; set; }
 
-		public Board ()
+		public Board (string[] grid = null)
 		{
-			this.grid = Enumerable.Repeat (" ", 9).ToArray ();
+			if (grid != null) {
+				this.grid = grid;
+			} else {
+				this.grid = Enumerable.Repeat (" ", 9).ToArray ();
+			}
 		}
 
 		public void display ()
