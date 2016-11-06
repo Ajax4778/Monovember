@@ -1,4 +1,4 @@
-// Monovember Day 4
+// Monovember Day 4, 5
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,9 @@ namespace TicTacToe
 		{
 			Board b = new Board ();
 			b.display ();
+
+			HumanPlayer p = new HumanPlayer ("Ajax");
+			p.getMove ();
 		}
 	}
 }
