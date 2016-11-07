@@ -1,26 +1,25 @@
-// Monovember Day 4, 5
+// Monovember Day 4, 5, 6
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TicTacToe
 {
 	public class Board
 	{
-		// TODO: refactor grid to use List<char> instead of char[].
-
 		public static char[] validMarks = new char[] { 'x', 'o' };
 
-		public char[] grid { get; private set; }
+		public List<char> grid { get; private set; }
 
 		public char winner { get; set; }
 
-		public Board (char[] grid = null)
+		public Board (List<char> grid = null)
 		{
 			if (grid != null) {
 				this.grid = grid;
 			} else {
-				this.grid = Enumerable.Repeat (' ', 9).ToArray ();
+				this.grid = Enumerable.Repeat (' ', 9).ToList ();
 			}
 		}
 
@@ -52,9 +51,9 @@ namespace TicTacToe
 			}
 
 			foreach (int i in new int[] { 0, 1, 2}) {
-				char[] row = this.row (i);
-				char[] col = this.column (i);
-				char[] dia = this.diagonal (i);
+				List<char> row = this.row (i);
+				List<char> col = this.column (i);
+				List<char> dia = this.diagonal (i);
 
 				if (this.isLineWon (row, mark) || this.isLineWon (col, mark) || this.isLineWon (dia, mark)) {
 					this.winner = mark;
@@ -66,13 +65,13 @@ namespace TicTacToe
 		}
 
 
-		public bool isLineWon (char[] line, char mark)
+		public bool isLineWon (List<char> line, char mark)
 		{
-			if (line.Length == 0 || line [0] != mark) {
+			if (!line.Any ()) {
 				return false;
 			}
 
-			return (line [0] != ' ' && line.Distinct ().ToArray ().Length == 1);
+			return line.All (cell => cell == mark);
 		}
 
 		public bool isFull ()
@@ -94,34 +93,34 @@ namespace TicTacToe
 			return (i * 3) + j;
 		}
 
-		public char[] row (int i)
+		public List<char> row (int i)
 		{
 			if (i < 0 || i > 2) {
-				return new char[0];
+				return new List<char> ();
 			} else {
 				i = i * 3;
-				return new char[] { this.grid [i], this.grid [i + 1], this.grid [i + 2] };
+				return new List<char> () { this.grid [i], this.grid [i + 1], this.grid [i + 2] };
 			}
 		}
 
-		public char[] column (int j)
+		public List<char> column (int j)
 		{
 			if (j < 0 || j > 2) {
-				return new char[0];
+				return new List<char> ();
 			} else {
-				return new char[] { this.grid [j], this.grid [j + 3], this.grid [j + 6] };
+				return new List<char> () { this.grid [j], this.grid [j + 3], this.grid [j + 6] };
 			}
 
 		}
 
-		public char[] diagonal (int d)
+		public List<char> diagonal (int d)
 		{
 			if (d == 0) {
-				return new char[] { this.grid [0], this.grid [4], this.grid [8] };
+				return new List<char> () { this.grid [0], this.grid [4], this.grid [8] };
 			} else if (d == 1) {
-				return new char[] { this.grid [2], this.grid [4], this.grid [6] };
+				return new List<char> () { this.grid [2], this.grid [4], this.grid [6] };
 			} else {
-				return new char[0];
+				return new List<char> ();
 			}
 		}
 	}
