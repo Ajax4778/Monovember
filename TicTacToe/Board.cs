@@ -1,4 +1,4 @@
-// Monovember Day 4, 5, 6
+// Monovember Day 4, 5, 6, 7
 
 using System;
 using System.Collections.Generic;
@@ -91,6 +91,14 @@ namespace TicTacToe
 			int j = pos [1];
 
 			return (i * 3) + j;
+		}
+
+		public int[] position (int idx)
+		{
+			int i = idx / 3;
+			int j = idx % 3;
+
+			return new int[] { i, j };
 		}
 
 		public List<char> row (int i)
