@@ -1,4 +1,4 @@
-﻿// Monovember Day 6, 7
+﻿// Monovember Day 6, 7, 8
 
 using System;
 using System.Collections.Generic;
@@ -54,13 +54,12 @@ namespace TicTacToe
 
 		private int[] nextWinningMove (char mark)
 		{
-			List<char> dupGrid = new List<char> (this.board.grid);
-			Board dupBoard;
-
 			for (int idx = 0; idx < 9; idx++) {
 				int[] pos = this.board.position (idx);
 				if (this.board.isCellEmpty (pos)) {
-					dupBoard = new Board (dupGrid);
+					List<char> dupGrid = new List<char> (this.board.grid);
+					Board dupBoard = new Board (dupGrid);
+
 					dupBoard.placeMark (pos, mark);
 					if (dupBoard.isWinner (mark)) {
 						return pos;
