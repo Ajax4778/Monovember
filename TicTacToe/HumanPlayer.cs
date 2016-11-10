@@ -1,4 +1,4 @@
-﻿// Monovember Day 5
+﻿// Monovember Day 5, 9
 
 using System;
 
@@ -7,6 +7,8 @@ namespace TicTacToe
 	public class HumanPlayer
 	{
 		public string name { get; private set; }
+
+		public char mark { get; set; }
 
 		public HumanPlayer (string name)
 		{

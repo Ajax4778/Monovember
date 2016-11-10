@@ -1,4 +1,4 @@
-﻿// Monovember Day 6, 7, 8
+﻿// Monovember Day 6, 7, 8, 9
 
 using System;
 using System.Collections.Generic;
@@ -21,10 +21,20 @@ namespace TicTacToe
 			this.board = board;
 		}
 
-		//		public int[] getMove ()
-		//		{
-		//			int[] nextMove = this.findWinningMove () || this.findBlockingMove () || this.getRandomMove ();
-		//		}
+		public int[] getMove ()
+		{
+			int[] winningMove = this.findWinningMove ();
+			if (winningMove != null) {
+				return winningMove;
+			}
+
+			int[] blockingMove = this.findBlockingMove ();
+			if (blockingMove != null) {
+				return blockingMove;
+			}
+
+			return this.getRandomMove ();
+		}
 
 		public int[] findWinningMove ()
 		{

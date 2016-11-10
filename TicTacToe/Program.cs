@@ -1,38 +1,90 @@
-// Monovember Day 4, 5, 6, 7
+// Monovember Day 4, 5, 6, 7, 9
 
 using System;
 using System.Collections.Generic;
 
 namespace TicTacToe
 {
-	class Program
+	class Game
 	{
 		public static void Main (string[] args)
 		{
-			Board b = new Board ();
-			b.display ();
+			Console.WriteLine ("What is your name?");
+			string playerName = Console.ReadLine ();
+			Game game = new Game (playerName);
+			game.run ();
+		}
 
-			b.placeMark (new int[] { 0, 0 }, 'x');
-			b.placeMark (new int[] { 0, 1 }, 'x');
-//			b.placeMark (new int[] { 0, 2 }, 'x');
-			b.placeMark (new int[] { 1, 2 }, 'o');
-			b.placeMark (new int[] { 1, 1 }, 'o');
-			b.display ();
+		public Board board { get; private set; }
 
-			Console.WriteLine (b.isLineWon (b.row (0), 'x')); // True
+		public HumanPlayer player { get; private set; }
 
-			Console.WriteLine (b.isWinner ('x')); // True
-			Console.WriteLine (b.isWinner ('o')); // False
+		public ComputerPlayer npc { get; private set; }
 
-			ComputerPlayer npc = new ComputerPlayer ("Hal", b);
-			npc.mark = 'o';
-			int[] move = npc.findWinningMove ();
-			b.placeMark (move, npc.mark);
-			b.display ();
+		public Game (string playerName)
+		{
+			this.board = new Board ();
+			this.npc = new ComputerPlayer ("Bernie", this.board);
+			this.player = new HumanPlayer (playerName);
+		}
 
+		public void run ()
+		{
+			this.player.mark = 'x';
+			this.npc.mark = 'o';
+			int[] move;
+			bool valid = true;
 
-//			HumanPlayer p = new HumanPlayer ("Ajax");
-//			p.getMove ();
+			while (!this.isOver ()) {
+				this.display ();
+
+				if (!valid) {
+					Console.WriteLine ("Invalid move.");
+				}
+
+				move = this.player.getMove ();
+				valid = this.playMove (move, 'x');
+				if (!valid) {
+					continue;
+				}
+
+				if (this.isOver () || this.board.isWinner ('x')) {
+					break;
+				}
+
+				move = this.npc.getMove ();
+				this.playMove (move, 'o');
+				if (this.isOver () || this.board.isWinner ('o')) {
+					break;
+				}
+			}
+
+			this.display ();
+			Console.WriteLine ("Winner: {0}", this.board.winner);
+			Console.WriteLine ("Game over.");
+		}
+
+		public void display ()
+		{
+			Console.Clear ();
+			this.board.display ();
+		}
+
+		public bool playMove (int[] move, char mark)
+		{
+			if (this.board.isCellEmpty (move)) {
+				this.board.placeMark (move, mark);
+				return true;
+			} else {
+				Console.WriteLine ("Invalid move.");
+				return false;
+			}
+
+		}
+
+		public bool isOver ()
+		{
+			return this.board.isFull ();
 		}
 	}
 }
